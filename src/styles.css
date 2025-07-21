@@ -1,0 +1,372 @@
+/*!
+
+=========================================================
+* Soft UI Dashboard Tailwind - v1.0.5
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-tailwind
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (site.license)
+
+* Coded by www.creative-tim.com
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* ---- Soft UI helpers (si votre kit ne les expose pas) ---- */
+.text-xxs{font-size:.75rem;letter-spacing:.02em;}
+.rounded-4{border-radius:1rem;}
+.shadow-xs{box-shadow:0 .125rem .25rem rgba(0,0,0,.06);}
+.table thead th{font-weight:700; font-size:.72rem; letter-spacing:.04em;}
+
+.bg-gradient-warning{
+  background:linear-gradient(310deg,#fbcf33,#f53939)!important;
+  border:0; color:#fff;
+}
+.bg-gradient-info{
+  background:linear-gradient(310deg,#21d4fd,#2152ff)!important;
+  border:0; color:#fff;
+}
+.bg-gradient-danger{
+  background:linear-gradient(310deg,#ff667c,#ea0606)!important;
+  border:0; color:#fff;
+}
+.btn.rounded-pill{border-radius:50rem!important}
+
+/* ---- Carte / section ---- */
+.soft-card{
+  border:0; border-radius:1rem; background:#fff;
+  box-shadow:0 20px 27px 0 rgba(0,0,0,.05);
+}
+
+/* ---- Table ---- */
+.soft-table{
+  --row-hover: rgba(33,82,255,0.06);
+  --row-stripe: rgba(0,0,0,.015);
+}
+.soft-table thead tr{
+  background:#f8f9fa;
+}
+.soft-table thead th{
+  text-transform:uppercase; color:#6c757d;
+  border:0; padding:.875rem .75rem;
+}
+.soft-table tbody tr{
+  background:#fff; transition:background-color .15s ease;
+}
+.soft-table tbody tr:nth-child(2n){
+  background:var(--row-stripe);
+}
+.soft-table td{
+  vertical-align:middle; padding:.75rem;
+  border-top:1px solid rgba(0,0,0,.05);
+}
+.soft-table tbody tr:hover{
+  background:var(--row-hover);
+}
+
+/* ---- En-tête sticky (optionnel) ---- */
+.table-responsive{position:relative; max-height:58vh;}
+.table-responsive thead th{
+  position:sticky; top:0; z-index:2;
+}
+
+/* ---- Titre & bandeau ---- */
+.page-title{
+  font-weight:700; text-transform:uppercase; color:#111827;
+  margin:0;
+}
+.section-subtitle{
+  font-weight:700; text-transform:uppercase; color:#6c757d; font-size:.75rem;
+}
+
+/* ---- Actions colonne droite ---- */
+.actions-end{ text-align:right; padding-right:1rem; }
+.actions-end .btn{ min-width:96px; }
+
+/* ---- Footer plat (évite le “menu liens” qui flotte au milieu) ---- */
+.app-footer-flat{
+  border:0; background:transparent; color:#99a1b7;
+  padding-top:1rem;
+}
+/* =========================
+   🌟 Global Soft UI Theme
+   ========================= */
+
+/* Reset et typo */
+body {
+  font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f8f9fa;
+  color: #344767;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Titres */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: #111827;
+}
+.section-title {
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #111827;
+}
+.section-subtitle {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #6c757d;
+}
+
+/* Cartes */
+.card, .soft-card {
+  border: 0;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 20px 27px rgba(0, 0, 0, 0.05);
+}
+.card-header {
+  background: transparent;
+  border-bottom: 0;
+}
+.card-body {
+  padding: 1.25rem;
+}
+
+/* Tableaux */
+.table {
+  margin-bottom: 0;
+}
+.table thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #6c757d;
+  background: #f8f9fa;
+  border: 0;
+}
+.table td {
+  vertical-align: middle;
+  padding: 0.75rem;
+  border-top: 1px solid rgba(0,0,0,.05);
+}
+.table tbody tr:hover {
+  background-color: rgba(33,82,255,0.05);
+}
+
+/* Formulaires */
+.form-label {
+  font-size: 0.8rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin-bottom: .35rem;
+}
+.form-control, .form-select {
+  border-radius: .75rem;
+  border: 1px solid rgba(0,0,0,.1);
+  padding: .6rem .9rem;
+}
+.form-control:focus, .form-select:focus {
+  border-color: #2152ff;
+  box-shadow: 0 0 0 .15rem rgba(33,82,255,.15);
+}
+
+/* Boutons gradient */
+.btn {
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  transition: all .2s ease-in-out;
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+.bg-gradient-primary {
+  background: linear-gradient(310deg, #7928ca, #ff0080) !important;
+  color: #fff !important;
+  border: 0;
+}
+.bg-gradient-warning {
+  background: linear-gradient(310deg, #fbcf33, #f53939) !important;
+  color: #fff !important;
+  border: 0;
+}
+.bg-gradient-info {
+  background: linear-gradient(310deg, #21d4fd, #2152ff) !important;
+  color: #fff !important;
+  border: 0;
+}
+.bg-gradient-danger {
+  background: linear-gradient(310deg, #ff667c, #ea0606) !important;
+  color: #fff !important;
+  border: 0;
+}
+
+/* Utilitaires */
+.rounded-pill {
+  border-radius: 50rem !important;
+}
+.text-xxs {
+  font-size: 0.75rem;
+  letter-spacing: .02em;
+}
+.shadow-xs {
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.06) !important;
+}
+
+/* Footer */
+.app-footer-flat {
+  border: 0;
+  background: transparent;
+  color: #99a1b7;
+  padding-top: 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+}
+/* =========================
+   NEOGLASS FORM THEME ✦ wow
+   ========================= */
+:root{
+  --bg: #0b1020;
+  --card: rgba(255,255,255,.08);
+  --stroke: rgba(255,255,255,.14);
+  --soft: rgba(255,255,255,.06);
+  --txt: #e6e8ef;
+  --muted: #9aa3b2;
+  --primary1:#7b5cff;
+  --primary2:#00d4ff;
+  --danger:#ff4d69;
+  --success:#2dd4bf;
+  --radius: 1.25rem;
+  --radius-sm: .9rem;
+  --shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+
+@media (prefers-color-scheme: light){
+  :root{ --bg:#f5f7fb; --card:#ffffffcc; --stroke:#e8ebf3; --soft:#f2f4fa; --txt:#1b2430; --muted:#667085; --shadow:0 14px 40px rgba(25,33,58,.12); }
+}
+
+
+/* ---- Carte formulaire ---- */
+.form-wow{
+  border-radius: var(--radius);
+  padding: clamp(1.25rem, 1.5vw, 2rem);
+  background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.07)) , var(--card);
+  backdrop-filter: blur(20px);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--stroke);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ruban dégradé en haut */
+.form-wow::before{
+  content:"";
+  position:absolute; inset: -1px -1px auto -1px; height: 6px; border-top-left-radius: var(--radius);
+  background: linear-gradient(90deg, var(--primary1), var(--primary2));
+}
+
+/* titre */
+.form-wow .form-title{
+  font-weight: 800; letter-spacing:.02em; text-transform: uppercase;
+  color: var(--txt); margin: 0 0 1rem;
+  display:flex; align-items:center; gap:.6rem;
+}
+.form-wow .badge-soft{
+  font-size:.72rem; color: white; padding:.25rem .6rem; border-radius: 999px;
+  background: linear-gradient(90deg, var(--primary1), var(--primary2));
+}
+
+/* grille */
+.form-grid{ display:grid; gap:1rem; }
+@media (min-width: 768px){ .form-grid.cols-2{ grid-template-columns: 1fr 1fr; } }
+
+/* ---- Champs avec label flottant ---- */
+.field{
+  position:relative;
+  background: var(--soft);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius-sm);
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.field input,
+.field select,
+.field textarea{
+  appearance:none; width:100%;
+  background: transparent; border:0; outline:0; color: var(--txt);
+  padding: 1.05rem 1rem .85rem 3rem;  /* place pour l’icône */
+  font-size: .95rem;
+}
+
+.field textarea{ min-height: 120px; resize: vertical; }
+
+/* label flottant */
+.field label{
+  position:absolute; left:3rem; top:50%; transform: translateY(-50%);
+  color: var(--muted); pointer-events:none;
+  transition: all .18s ease;
+  background: transparent; padding:0 .25rem;
+}
+
+/* icône */
+.field .icon{
+  position:absolute; left:.85rem; top:50%; transform: translateY(-50%);
+  font-size:1rem; color: var(--muted);
+}
+
+/* focus + value => label flotte */
+.field:focus-within{ border-color: color-mix(in oklab, var(--primary2) 55%, var(--primary1)); box-shadow: 0 8px 28px rgba(123,92,255,.18); background: rgba(255,255,255,.12); }
+.field:focus-within .icon{ color: var(--primary2); }
+.field input:not(:placeholder-shown) + label,
+.field select:has(option:checked:not([value=""])) + label,
+.field textarea:not(:placeholder-shown) + label{
+  top:.55rem; transform:none; font-size:.72rem; color: var(--muted);
+}
+
+/* select flèche */
+.field select{
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%),
+    linear-gradient(to right, transparent, transparent);
+  background-position:
+    calc(100% - 22px) calc(1.2rem),
+    calc(100% - 17px) calc(1.2rem),
+    100% 0;
+  background-size: 6px 6px, 6px 6px, 2.5rem 2.5rem;
+  background-repeat: no-repeat;
+  padding-right: 2.75rem;
+}
+
+/* états */
+.field.error{ border-color: color-mix(in oklab, var(--danger) 70%, #000 0%); }
+.field.success{ border-color: color-mix(in oklab, var(--success) 70%, #000 0%); }
+.helper{
+  margin-top:.35rem; font-size:.78rem; color: var(--muted);
+}
+.helper.error{ color: var(--danger); }
+.helper.success{ color: var(--success); }
+
+/* ---- Bouton ---- */
+.btn-wow{
+  border:0; color:#fff; font-weight:700;
+  padding:.95rem 1.1rem; border-radius: 999px;
+  background: linear-gradient(90deg, var(--primary1), var(--primary2));
+  box-shadow: 0 12px 30px rgba(0,212,255,.25);
+  transition: transform .12s ease, box-shadow .2s ease, filter .2s ease;
+}
+.btn-wow:hover{ transform: translateY(-1px); filter: saturate(1.1); box-shadow: 0 16px 40px rgba(0,212,255,.32); }
+.btn-wow:disabled{ opacity:.55; cursor:not-allowed; box-shadow:none; }
+
+/* petite animation d’entrée */
+@keyframes pop { from{ transform: translateY(6px); opacity:0 } to{ transform:none; opacity:1 } }
+.form-wow{ animation: pop .35s ease both; }
