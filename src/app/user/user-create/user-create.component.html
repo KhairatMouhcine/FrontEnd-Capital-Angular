@@ -1,0 +1,73 @@
+<div class="min-height-300 bg-dark position-absolute w-100"></div>
+
+<aside
+  id="sidenav-main"
+  class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white shadow p-0 antialiased transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent">
+  <app-side-bar></app-side-bar>
+</aside>
+
+<main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200">
+  <!-- Navbar -->
+  <app-nav-layout></app-nav-layout>
+  <!-- End Navbar -->
+
+  <div class="container py-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        
+        <!-- ✅ Nouvelle carte avec effet soft -->
+        <div class="card shadow-lg border-0 rounded-4">
+          <div class="card-header text-center bg-light rounded-top-4">
+            <h4 class="fw-bold mb-0">➕ Créer un utilisateur</h4>
+          </div>
+          <div class="card-body p-4">
+            
+            <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+              
+              <!-- Nom -->
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control rounded-3" id="name" placeholder="Nom" formControlName="name">
+                <label for="name">Nom</label>
+              </div>
+
+              <!-- Email -->
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control rounded-3" id="email" placeholder="Email" formControlName="email">
+                <label for="email">Email</label>
+              </div>
+
+              <!-- Mot de passe -->
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control rounded-3" id="password" placeholder="Mot de passe" formControlName="password">
+                <label for="password">Mot de passe</label>
+              </div>
+
+              <!-- Rôle -->
+              <div class="form-floating mb-4">
+                <select class="form-select rounded-3" id="role" formControlName="role">
+                  <option value="admin">Admin</option>
+                  <option value="manager">Manager</option>
+                  <option value="rh">RH</option>
+                </select>
+                <label for="role">Rôle</label>
+              </div>
+
+              <!-- Bouton -->
+              <div class="d-grid">
+                <button type="submit" class="btn btn-lg rounded-pill shadow-sm text-white" 
+        style="background: linear-gradient(310deg,#17ad37,#84dc14); border:0;">
+  ✅ Enregistrer
+</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+        <!-- Fin carte -->
+
+      </div>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</main>
