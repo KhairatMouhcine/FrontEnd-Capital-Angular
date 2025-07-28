@@ -1,0 +1,98 @@
+<div class="min-height-300 bg-dark position-absolute w-100"></div>
+
+<aside class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full 
+-translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl 
+border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 
+xl:left-0 xl:translate-x-0 xl:bg-transparent" id="sidenav-main">
+  <app-side-bar></app-side-bar>
+</aside>
+
+<main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200">
+  <!-- Navbar -->
+  <app-nav-layout></app-nav-layout>
+  <!-- End Navbar -->
+
+  <div class="container-fluid py-4">
+    <div class="container py-4">
+<!-- Hero card avec l'image -->
+<div class="hero-rectangle mb-4">
+  <img
+    src="assets/img/curved-images/curved0.jpg"
+    alt="Illustration"
+  />
+</div>
+
+      <!-- Header -->
+      <!-- Header -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h3 class="mb-4 fw-bold border-bottom pb-2"
+          style="background:linear-gradient(90deg,#344767);
+                 -webkit-background-clip:text;background-clip:text;color:transparent;">👤 Liste des Profils</h3>
+        <div class="d-flex gap-2">
+          <input type="file" (change)="onFileSelected($event)" hidden #fileInput />
+          <button class="btn btn-outline-primary -pill shadow-sm px-3" (click)="fileInput.click()">
+            📄 Importer CV
+          </button>
+          <a routerLink="/profils-new" class="btn btn-success -pill shadow-sm px-3">
+            ➕ Ajouter un profil
+          </a>
+        </div>
+      </div>
+
+      <!-- Loader -->
+      <div *ngIf="loading" class="d-flex flex-column align-items-center justify-content-center py-5">
+        <div class="spinner-border text-primary mb-3" role="status" aria-label="Chargement en cours">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+        <p class="text-muted">Chargement en cours...</p>
+      </div>
+
+      <!-- No profiles -->
+      <div *ngIf="!isLoading && profils.length === 0" class="alert alert-info text-center rounded-3 shadow-sm">
+        Aucun profil trouvé.
+      </div>
+
+      <!-- Table -->
+      <div *ngIf="!isLoading" class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle text-center">
+              <thead class="table-primary">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Nom</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Téléphone</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let profil of profils; let i = index">
+                  <td class="fw-semibold">{{ i + 1 }}</td>
+                  <td>{{ profil.donneesJson?.prenom }} {{ profil.donneesJson?.nom }}</td>
+                  <td>{{ profil.donneesJson?.email }}</td>
+                  <td>{{ profil.donneesJson?.telephone }}</td>
+                  <td>
+                    <div class="d-flex justify-content-center gap-2">
+                      <button class="btn btn-sm btn-outline-primary -pill px-3 shadow-sm"
+                              (click)="goToEdit(profil.id)">
+                        ✏️ Modifier
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger -pill px-3 shadow-sm"
+                              (click)="deleteProfil(profil.id)">
+                        🗑️ Supprimer
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</main>

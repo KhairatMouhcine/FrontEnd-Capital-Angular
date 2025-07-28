@@ -1,0 +1,250 @@
+<div class="min-height-300 bg-dark position-absolute w-100"></div>
+
+<aside class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full 
+  -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl 
+  border-0 bg-white p-0 antialiased shadow-lg transition-transform duration-200 
+  xl:left-0 xl:translate-x-0 xl:bg-transparent" id="sidenav-main">
+  <app-side-bar></app-side-bar>
+</aside>
+
+<main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200">
+  <!-- Navbar -->
+  <app-nav-layout></app-nav-layout>
+  <!-- End Navbar -->
+
+  <div class="container-fluid py-4">
+    <div class="container py-4">
+      
+      <!-- Titre dégradé vert -> bleu -->
+      <h2 class="mb-4 fw-bold border-bottom pb-2"
+          style="background:linear-gradient(90deg,#344767);
+                 -webkit-background-clip:text;background-clip:text;color:transparent;">
+        {{ isEditMode ? '✏️ Modifier le Profil' : '✏️ Créer un Profil' }}
+      </h2>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" 
+        class="p-4 rounded-3 bg-white shadow-lg border border-light"
+        style="position:relative;">
+        <!-- petit liseré top en dégradé -->
+        <div style="position:absolute;left:0;right:0;top:0;height:6px;border-radius:0.5rem 0.5rem 0 0;
+                    background:linear-gradient(90deg,#22C55E,#06B6D4);"></div>
+
+        <!-- ====================== PHOTO EN TÊTE ====================== -->
+        <div class="mb-4">
+          <label class="form-label fw-semibold d-block"
+                 style="color:#0f766e;">Photo de profil</label>
+
+          <div class="d-flex align-items-center gap-3">
+            <img
+              [src]="photoPreviewUrl || photoServerUrl || 'https://placehold.co/120x120?text=Photo'"
+              alt="Photo de profil"
+              class="rounded-circle border"
+              style="width:120px;height:120px;object-fit:cover;border-color:#22C55E33"
+              (error)="onImgError($event)"
+            />
+
+            <div class="d-flex flex-column gap-2">
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                class="form-control"
+                style="border:2px solid #06B6D422"
+                (change)="onFileSelected($event)"
+              />
+
+              <div class="d-flex gap-2">
+                <button type="button" class="btn btn-sm"
+                        (click)="clearSelectedFile()" [disabled]="!selectedFile"
+                        style="border:1px solid #06B6D4;color:#06B6D4;background:#F0F9FF;">
+                  ↩️ Annuler la sélection
+                </button>
+                <button type="button" class="btn btn-sm"
+                        (click)="removePhoto()" [disabled]="!photoServerUrl && !photoPreviewUrl"
+                        style="border:1px solid #ef4444;color:#ef4444;background:#FEF2F2;">
+                  🗑 Retirer l’aperçu
+                </button>
+              </div>
+
+              <div *ngIf="photoError" class="small" style="color:#dc2626">{{ photoError }}</div>
+              <div *ngIf="photoInfo" class="small" style="color:#16a34a">{{ photoInfo }}</div>
+            </div>
+          </div>
+        </div>
+        <!-- =========================================================== -->
+
+        <!-- Infos principales -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" style="color:#0f766e;">Prénom</label>
+            <input class="form-control form-control-lg" formControlName="prenom" type="text"
+                   placeholder="Entrez le prénom" style="border:2px solid #22C55E22" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" style="color:#0f766e;">Nom</label>
+            <input class="form-control form-control-lg" formControlName="nom" type="text"
+                   placeholder="Entrez le nom" style="border:2px solid #06B6D422" />
+          </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" style="color:#0f766e;">Email</label>
+            <input class="form-control form-control-lg" formControlName="email" type="email"
+                   placeholder="exemple@mail.com" style="border:2px solid #22C55E22" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" style="color:#0f766e;">Téléphone</label>
+            <input class="form-control form-control-lg" formControlName="telephone" type="text"
+                   placeholder="+33 ..." style="border:2px solid #06B6D422" />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold" style="color:#0f766e;">Ville</label>
+          <input class="form-control form-control-lg" formControlName="ville" type="text"
+                 placeholder="Ville de résidence" style="border:2px solid #22C55E22" />
+        </div>
+
+        <!-- Compétences -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold" style="color:#0f766e;">Compétences</label>
+          <div formArrayName="competences">
+            <div *ngFor="let c of competences.controls; let i = index" class="input-group mb-2">
+              <input class="form-control" [formControlName]="i" placeholder="Compétence"
+                     style="border:2px solid #06B6D422" />
+              <button type="button" class="btn"
+                      style="border:1px solid #ef4444;color:#ef4444;background:#FEF2F2"
+                      (click)="removeFromArray('competences', i)">✕</button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm mt-2"
+                  style="border:1px solid #22C55E;color:#22C55E;background:#ECFDF5"
+                  (click)="addCompetence()">➕ Ajouter</button>
+        </div>
+
+        <!-- Langues -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold" style="color:#0f766e;">Langues</label>
+          <div formArrayName="langues">
+            <div *ngFor="let l of langues.controls; let i = index" class="input-group mb-2">
+              <input class="form-control" [formControlName]="i" placeholder="Langue"
+                     style="border:2px solid #22C55E22" />
+              <button type="button" class="btn"
+                      style="border:1px solid #ef4444;color:#ef4444;background:#FEF2F2"
+                      (click)="removeFromArray('langues', i)">✕</button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm mt-2"
+                  style="border:1px solid #06B6D4;color:#06B6D4;background:#F0F9FF"
+                  (click)="addLangue()">➕ Ajouter</button>
+        </div>
+
+        <!-- Centres d’intérêt -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold" style="color:#0f766e;">Centres d'intérêt</label>
+          <div formArrayName="centresInteret">
+            <div *ngFor="let c of centresInteret.controls; let i = index" class="input-group mb-2">
+              <input class="form-control" [formControlName]="i" placeholder="Centre d'intérêt"
+                     style="border:2px solid #06B6D422" />
+              <button type="button" class="btn"
+                      style="border:1px solid #ef4444;color:#ef4444;background:#FEF2F2"
+                      (click)="removeFromArray('centresInteret', i)">✕</button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm mt-2"
+                  style="border:1px solid #22C55E;color:#22C55E;background:#ECFDF5"
+                  (click)="addCentreInteret()">➕ Ajouter</button>
+        </div>
+
+        <!-- Expériences -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold" style="color:#0f766e;">Expériences</label>
+          <div formArrayName="experiences">
+            <div *ngFor="let exp of experiences.controls; let i = index" [formGroupName]="i" 
+              class="border p-3 rounded-3 mb-3 bg-light shadow-sm"
+              style="border-color:#22C55E33">
+              <input class="form-control mb-2" formControlName="poste" placeholder="Poste"
+                     style="border:2px solid #22C55E22" />
+              <input class="form-control mb-2" formControlName="lieu" placeholder="Lieu"
+                     style="border:2px solid #06B6D422" />
+              <div class="row g-2 mb-2">
+                <div class="col">
+                  <input class="form-control" formControlName="debut" placeholder="Début"
+                         style="border:2px solid #22C55E22" />
+                </div>
+                <div class="col">
+                  <input class="form-control" formControlName="fin" placeholder="Fin"
+                         style="border:2px solid #06B6D422" />
+                </div>
+              </div>
+              <textarea class="form-control mb-2" formControlName="description" placeholder="Description"
+                        style="border:2px solid #06B6D422"></textarea>
+              <button type="button" class="btn btn-sm"
+                      style="border:1px solid #ef4444;color:#ef4444;background:#FEF2F2"
+                      (click)="removeFromArray('experiences', i)">🗑 Supprimer</button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm"
+                  style="border:1px solid #06B6D4;color:#06B6D4;background:#F0F9FF"
+                  (click)="addExperience()">➕ Ajouter une expérience</button>
+        </div>
+
+        <!-- Formations -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold" style="color:#0f766e;">Formations</label>
+          <div formArrayName="formations">
+            <div *ngFor="let form of formations.controls; let i = index" [formGroupName]="i" 
+              class="border p-3 rounded-3 mb-3 bg-light shadow-sm"
+              style="border-color:#06B6D433">
+              <input class="form-control mb-2" formControlName="titre" placeholder="Titre"
+                     style="border:2px solid #22C55E22" />
+              <input class="form-control mb-2" formControlName="institution" placeholder="Institution"
+                     style="border:2px solid #06B6D422" />
+              <input class="form-control mb-2" formControlName="annee" placeholder="Année"
+                     style="border:2px solid #22C55E22" />
+              <button type="button" class="btn btn-sm"
+                      style="border:1px solid #ef4444;color:#ef4444;background:#FEF2F2"
+                      (click)="removeFromArray('formations', i)">🗑 Supprimer</button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm"
+                  style="border:1px solid #22C55E;color:#22C55E;background:#ECFDF5"
+                  (click)="addFormation()">➕ Ajouter une formation</button>
+        </div>
+
+        <!-- Fournisseur -->
+        <div class="mb-3">
+          <label for="idFournisseur" class="form-label fw-semibold" style="color:#0f766e;">Fournisseur</label>
+          <select class="form-select form-select-lg" formControlName="idFournisseur" id="idFournisseur"
+                  style="border:2px solid #06B6D422">
+            <option value="">-- Sélectionner un fournisseur --</option>
+            <option *ngFor="let f of fournisseurs" [value]="f.id">
+              {{ f.donneesJson?.Denomination || 'Fournisseur inconnu' }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Submit -->
+        <div class="text-end">
+          <button class="btn shadow-sm px-4 fw-bold text-white"
+                  type="submit"
+                  style="background:linear-gradient(90deg,#22C55E,#06B6D4);
+                         box-shadow:0 10px 20px rgba(6,182,212,.25);">
+            {{ isEditMode ? '💾 Mettre à jour' : ' 💾 Créer le profil' }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</main>
+<style>
+  input::placeholder,
+  textarea::placeholder,
+  select::placeholder {
+    font-size: 0.8rem;  /* réduit la taille */
+    color: #9ca3af;     /* gris plus doux */
+  }
+</style>
+
