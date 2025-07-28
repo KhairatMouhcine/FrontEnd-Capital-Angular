@@ -1,0 +1,188 @@
+<div class="min-height-300 bg-dark position-absolute w-100"></div>
+<aside class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-lg transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent" id="sidenav-main">
+  <app-side-bar></app-side-bar>
+</aside>
+
+<main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200 ">
+  <!-- Navbar -->
+  <app-nav-layout></app-nav-layout>
+  <!-- End Navbar -->
+
+  <!-- Zone import KBIS -->
+  <div class="mb-4 p-3">
+    <input type="file" hidden #fileInput accept=".pdf,.png,.jpg,.jpeg,.webp" (change)="onFileChange($event)" />
+
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn rounded-pill shadow-sm px-4"
+              (click)="fileInput.click()"
+              style="border:1px solid #06B6D4;color:#06B6D4;background:#F0F9FF;">
+        📄 Importer un KBIS
+      </button>
+    </div>
+
+    <div *ngIf="isLoading" class="d-flex align-items-center mt-3">
+      <div class="spinner-border me-2" role="status" style="width:1.5rem;height:1.5rem;color:#06B6D4;">
+        <span class="visually-hidden">Chargement...</span>
+      </div>
+      <span>Analyse du KBIS en cours...</span>
+    </div>
+
+    <div *ngIf="uploadMessage" class="mt-3">
+      <span [ngClass]="{ 'text-success': uploadMessage.startsWith('✅'), 'text-danger': uploadMessage.startsWith('❌') }">
+        {{ uploadMessage }}
+      </span>
+    </div>
+  </div>
+
+  <div class="container-fluid py-4">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()"
+          class="container mt-4 p-5 rounded-4 shadow-lg bg-white"
+          style="position:relative; border:1px solid #e9ecef;">
+      <!-- Titre + liseré top dégradé -->
+      <div style="position:absolute;left:0;right:0;top:0;height:6px;border-radius:0.75rem 0.75rem 0 0;
+                  background:linear-gradient(90deg,#22C55E,#06B6D4);"></div>
+      <h3 class="mb-4 fw-bold"
+          style="background:linear-gradient(90deg,#344767);
+                 -webkit-background-clip:text;background-clip:text;color:transparent;">
+        {{ isEditMode ? '✏️ Modifier le fournisseur' : '✏️ Créer un fournisseur' }}
+      </h3>
+
+      <!-- Ligne 1 -->
+      <div class="row mb-3">
+        <div class="col-6">
+          <label for="denomination" class="form-label" style="color:#0f766e;">Dénomination</label>
+          <input id="denomination" formControlName="denomination" class="form-control shadow-sm rounded-3" type="text"
+                 style="border:2px solid #22C55E22;" />
+        </div>
+        <div class="col-6">
+          <label for="siren" class="form-label" style="color:#0f766e;">SIRET</label>
+          <input id="siren" formControlName="siren" class="form-control shadow-sm rounded-3" type="text"
+                 style="border:2px solid #06B6D422;" />
+        </div>
+      </div>
+
+      <!-- Ligne 2 -->
+      <div class="row mb-3">
+        <div class="col-6">
+          <label for="adresse" class="form-label" style="color:#0f766e;">Adresse</label>
+          <input id="adresse" formControlName="adresse" class="form-control shadow-sm rounded-3" type="text"
+                 style="border:2px solid #22C55E22;" />
+        </div>
+        <div class="col-6">
+          <label for="formeJuridique" class="form-label" style="color:#0f766e;">Forme Juridique</label>
+          <input id="formeJuridique" formControlName="formeJuridique" class="form-control shadow-sm rounded-3" type="text"
+                 style="border:2px solid #06B6D422;" />
+        </div>
+      </div>
+
+      <!-- Ligne 3 -->
+      <div class="row mb-3">
+        <div class="col-6">
+          <label for="dateImmatriculation" class="form-label" style="color:#0f766e;">Date Immatriculation</label>
+          <input id="dateImmatriculation" formControlName="dateImmatriculation" class="form-control shadow-sm rounded-3" type="date"
+                 style="border:2px solid #22C55E22;" />
+        </div>
+        <div class="col-6">
+          <label for="capitalSocial" class="form-label" style="color:#0f766e;">Capital Social</label>
+          <input id="capitalSocial" formControlName="capitalSocial" class="form-control shadow-sm rounded-3" type="text"
+                 style="border:2px solid #06B6D422;" />
+        </div>
+      </div>
+
+      <!-- Ligne 4 -->
+      <div class="row mb-3">
+        <div class="col-6">
+          <label for="dateCommencement" class="form-label" style="color:#0f766e;">Date Commencement</label>
+          <input id="dateCommencement" formControlName="dateCommencement" class="form-control shadow-sm rounded-3" type="date"
+                 style="border:2px solid #22C55E22;" />
+        </div>
+      </div>
+
+      <!-- Activités -->
+      <div class="mb-3">
+        <label class="form-label fw-bold" style="color:#0f766e;">Activités</label>
+        <div formArrayName="activites">
+          <div *ngFor="let ctrl of activites.controls; let i = index"
+               class="input-group mb-2 shadow-sm rounded-pill bg-light overflow-hidden"
+               style="border:1px solid #06B6D422;">
+            <input [formControlName]="i" type="text"
+                   class="form-control border-0 bg-light px-4 py-2 rounded-start-pill"
+                   placeholder="Activité..." />
+            <button type="button" class="btn btn-light text-danger px-3 rounded-end-pill"
+                    (click)="removeActivite(i)" aria-label="Supprimer cette activité"
+                    style="border-left:1px solid #e5e7eb;">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+        </div>
+        <button type="button" class="btn btn-sm mt-2 -pill shadow-sm px-3"
+                (click)="addActivite()"
+                style="border:1px solid #06B6D4;color:#06B6D4;background:#F0F9FF;">
+          + Ajouter une activité
+        </button>
+      </div>
+
+      <!-- Dirigeant -->
+      <fieldset formGroupName="dirigeant" class="border border-2 rounded-4 p-4 shadow-sm bg-light mb-4"
+                style="border-color:#22C55E33;">
+        <legend class="float-none w-auto px-3 fw-bold"
+                style="color:#0f766e;">Dirigeant</legend>
+
+        <div class="row mb-3">
+          <div class="col-6">
+            <label for="nom" class="form-label" style="color:#0f766e;">Nom</label>
+            <input id="nom" class="form-control shadow-sm rounded-3" formControlName="nom" type="text"
+                   style="border:2px solid #22C55E22;" />
+          </div>
+          <div class="col-6">
+            <label for="prenom" class="form-label" style="color:#0f766e;">Prénom</label>
+            <input id="prenom" class="form-control shadow-sm rounded-3" formControlName="prenom" type="text"
+                   style="border:2px solid #06B6D422;" />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-6">
+            <label for="dateNaissance" class="form-label" style="color:#0f766e;">Date de naissance</label>
+            <input id="dateNaissance" class="form-control shadow-sm rounded-3" formControlName="dateNaissance" type="date"
+                   style="border:2px solid #22C55E22;" />
+          </div>
+          <div class="col-6">
+            <label for="lieuNaissance" class="form-label" style="color:#0f766e;">Lieu de naissance</label>
+            <input id="lieuNaissance" class="form-control shadow-sm rounded-3" formControlName="lieuNaissance" type="text"
+                   style="border:2px solid #06B6D422;" />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="adresseDirigeant" class="form-label" style="color:#0f766e;">Adresse</label>
+          <input id="adresseDirigeant" class="form-control shadow-sm rounded-3" formControlName="adresse" type="text"
+                 style="border:2px solid #22C55E22;" />
+        </div>
+      </fieldset>
+
+      <!-- Submit -->
+      <div class="d-grid">
+        <button type="submit"
+                class="btn -pill px-4 shadow-sm fw-bold text-white"
+                style="background:linear-gradient(90deg,#22C55E,#06B6D4);
+                       box-shadow:0 10px 20px rgba(6,182,212,.25);">
+          {{ isEditMode ? 'Mettre à jour' : 'Créer le fournisseur' }}
+        </button>
+      </div>
+
+    </form>
+
+    <app-footer></app-footer>
+  </div>
+</main>
+
+<!-- Placeholders plus petits -->
+<style>
+  input::placeholder,
+  textarea::placeholder,
+  select::placeholder {
+    font-size: 0.85rem;
+    color: #9ca3af;
+  }
+</style>
