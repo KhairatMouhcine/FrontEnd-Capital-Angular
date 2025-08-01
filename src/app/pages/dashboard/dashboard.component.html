@@ -1,0 +1,42 @@
+
+
+
+
+
+<aside
+  id="sidenav-main"
+  class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent">
+  <app-side-bar></app-side-bar>
+</aside>
+
+<main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200">
+  <!-- Navbar -->
+  <app-nav-layout></app-nav-layout>
+  <!-- End Navbar -->
+
+  <div class="container-fluid py-4">
+      <main class="content">
+    <div *ngIf="loading" class="state">Chargement…</div>
+    <div *ngIf="error" class="state error">{{ error }}</div>
+
+    <div *ngIf="!loading && !error" [class]="getCardClass()">
+      <div class="content-inside">
+        <h2>👋 Bonjour <span class="username">{{ user?.name || 'Utilisateur' }}</span></h2>
+        <p class="subtitle">Bienvenue sur la plateforme Capital Conseil & Technologie, votre espace dédié à la gestion et au suivi de vos prestations.</p>
+        <!-- <p class="role-chip">{{ roleLabel }}</p> -->
+
+        <div class="datetime">
+          <span class="date">{{ todayStr }}</span>
+          <span class="sep">•</span>
+          <span class="clock">{{ timeStr }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exemple de graphique -->
+   
+  </main>
+
+    <app-footer class="app-footer-flat"></app-footer>
+  </div>
+</main>

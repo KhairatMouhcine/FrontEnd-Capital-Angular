@@ -1,0 +1,40 @@
+.page { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 60px); }
+.content { padding: 24px; }
+
+.state { padding: 16px; border-radius: 12px; background: #f3f4f6; color: #111827; margin-bottom: 16px; }
+.state.error { background: #fee2e2; color: #7f1d1d; }
+
+/* Grande carte d’accueil */
+.card { border-radius: 22px; color: #fff; padding: 28px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 12px 30px rgba(0,0,0,0.18); margin-bottom: 20px; }
+.card.rh { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); }
+.card.manager { background: linear-gradient(135deg, #10b981 0%, #2563eb 100%); }
+.card.prestataire { background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%); }
+.card.admin {
+  background: linear-gradient(135deg, #10b981 0%, #2563eb 100%);
+}
+
+
+
+.card::after { content: ""; position: absolute; top: -20%; right: -20%; width: 60%; height: 160%; background: radial-gradient(ellipse at center, rgba(255,255,255,0.18), transparent 60%); transform: rotate(15deg); }
+.content-inside { position: relative; z-index: 1; }
+
+h2 { font-size: 28px; margin: 0 0 6px; letter-spacing: 0.2px; }
+.username { font-weight: 700; }
+.subtitle { font-size: 16px; opacity: 0.95; margin: 0 0 14px; }
+
+.role-chip {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(6px);
+}
+
+.datetime { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; background: rgba(255,255,255,0.16); font-weight: 600; backdrop-filter: blur(6px); }
+.sep { opacity: 0.8; }
+
+/* Carte graphique */
+.chart-card { background: #fff; color: #111827; }
