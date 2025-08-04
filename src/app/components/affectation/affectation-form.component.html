@@ -1,0 +1,94 @@
+<div class="min-height-300 bg-dark position-absolute w-100"></div>
+<aside class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent" id="sidenav-main">
+  <app-side-bar></app-side-bar>
+</aside>
+
+<main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200">
+  <app-nav-layout></app-nav-layout>
+
+  <div class="container-fluid py-4">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-4 rounded-4 shadow">
+  <!-- Titre + badge -->
+  <h4 class="mb-4 fw-bold border-bottom pb-2"
+          style="background:linear-gradient(90deg,#344767);
+                 -webkit-background-clip:text;background-clip:text;color:transparent;">
+    {{ isEditMode ? '✏️ Modifier l\'affectation' : '✏️ Créer une affectation' }}
+    <!-- <span class="badge text-white"
+          style="background:linear-gradient(90deg,#22C55E,#06B6D4);box-shadow:0 4px 14px rgba(6,182,212,.35);">
+      {{ isEditMode ? 'Édition' : 'Nouveau' }}
+    </span> -->
+  </h4>
+
+  <div class="row g-3">
+    <!-- Profil -->
+    <div class="col-md-6">
+      <label for="profilId" class="form-label fw-semibold text-secondary">Profil</label>
+      <div class="input-group">
+        <span class="input-group-text border-0"
+              style="background:#ECFDF5;color:#22C55E;">👤</span>
+        <select id="profilId" class="form-select border border-2"
+                formControlName="profilId" required
+                style="border-color:#22C55E22;">
+          <option value=""></option>
+          <option *ngFor="let p of profils" [value]="p.profilID">
+            {{ p.name }} (ID: {{ p.prenom }})
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Client -->
+    <div class="col-md-6">
+      <label for="clientId" class="form-label fw-semibold text-secondary">Client</label>
+      <div class="input-group">
+        <span class="input-group-text border-0"
+              style="background:#F0F9FF;color:#06B6D4;">🏢</span>
+        <select id="clientId" class="form-select border border-2"
+                formControlName="clientId" required
+                style="border-color:#06B6D422;">
+          <option value=""></option>
+          <option *ngFor="let c of clients" [value]="c.id">
+            {{ c.denomination }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Date début -->
+    <div class="col-md-6">
+      <label for="dateDebut" class="form-label fw-semibold text-secondary">Date début</label>
+      <div class="input-group">
+        <span class="input-group-text border-0"
+              style="background:#ECFDF5;color:#22C55E;">📅</span>
+        <input id="dateDebut" type="date" class="form-control border border-2"
+               formControlName="dateDebut" required
+               style="border-color:#22C55E22;">
+      </div>
+    </div>
+
+    <!-- Date fin -->
+    <div class="col-md-6">
+      <label for="dateFin" class="form-label fw-semibold text-secondary">Date fin</label>
+      <div class="input-group">
+        <span class="input-group-text border-0"
+              style="background:#F0F9FF;color:#06B6D4;">🗓️</span>
+        <input id="dateFin" type="date" class="form-control border border-2"
+               formControlName="dateFin" required
+               style="border-color:#06B6D422;">
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <button type="submit" class="btn w-100 py-2 fw-bold text-white"
+            [disabled]="form.invalid"
+            style="background:linear-gradient(90deg,#22C55E,#06B6D4);
+                   box-shadow:0 10px 20px rgba(6,182,212,.25);">
+      {{ isEditMode ? 'Mettre à jour' : 'Valider l\'affectation' }}
+    </button>
+  </div>
+</form>
+
+    <app-footer class="app-footer-flat"></app-footer>
+  </div>
+</main>

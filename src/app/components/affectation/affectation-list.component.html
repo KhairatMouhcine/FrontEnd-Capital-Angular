@@ -1,0 +1,121 @@
+<div class="min-height-300 bg-dark position-absolute w-100"></div>
+
+<!-- 🔹 Sidebar -->
+<aside
+  id="sidenav-main"
+  class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full
+         flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0
+         antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent">
+  <app-side-bar></app-side-bar>
+</aside>
+
+<!-- 🔹 Main -->
+<main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200">
+  <!-- Navbar -->
+  <app-nav-layout></app-nav-layout>
+
+  <div class="container-fluid py-4">
+    <div class="page-container bg-white rounded-4 shadow-sm p-4">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+               <h3 class="mb-4 fw-bold border-bottom pb-2"
+          style="background:linear-gradient(90deg,#344767);
+                 -webkit-background-clip:text;background-clip:text;color:transparent;">👤 Liste des Affectations</h3>
+        <a
+          href="/Affectation-add"
+          class="btn btn-success -pill shadow-sm px-3">
+          ➕ Affecter
+        </a>
+      </div>
+
+      <!-- 🔹 Hero -->
+      <div class="hero-rectangle mb-4" style="height:35px; overflow:hidden;">
+        <img
+          src="assets/img/curved-images/curved0.jpg"
+          alt="Illustration"
+          style="width:100%; height:100% !important; object-fit:cover; display:block;"
+        />
+      </div>
+
+      <!-- 🔹 Filtres -->
+      <form [formGroup]="filters" class="row g-3 mb-4">
+        <div class="col-md-3">
+          <label class="form-label mb-1">Dénomination</label>
+          <input type="text" class="form-control -pill px-3 shadow-sm" placeholder="Ex: TM SERVICES" formControlName="denomination">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label mb-1">Nom complet</label>
+          <input type="text" class="form-control -pill px-3 shadow-sm" placeholder="Ex: ELFAIZE Youssef" formControlName="fullName">
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label mb-1">Date de début (≥)</label>
+          <input type="date" class="form-control -pill px-3 shadow-sm" formControlName="from">
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label mb-1">Date de fin (≤)</label>
+          <input type="date" class="form-control -pill px-3 shadow-sm" formControlName="to">
+        </div>
+
+        <div class="col-md-2 d-flex align-items-end">
+          <button type="button" class="btn btn-outline-secondary -pill w-100 shadow-sm" (click)="resetFilters()">
+            Réinitialiser
+          </button>
+        </div>
+      </form>
+
+      <!-- 🔹 Carte + Table -->
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+          <h6 class="mb-0 text-secondary">Affectations</h6>
+        </div>
+
+        <div class="card-body p-0">
+          <table class="table table-hover align-middle text-center mb-0">
+            <thead class="bg-primary text-white">
+              <tr>
+                <th class="ps-4 py-3">Dénomination</th>
+                <th class="py-3">Nom complet</th>
+                <th class="py-3">Date début</th>
+                <th class="py-3">Date fin</th>
+                <th class="py-3" style="width: 300px;">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let a of filteredAffectations" class="bg-white">
+                <td class="ps-4"><p class="text-sm mb-0">{{ a.denomination }}</p></td>
+                <td><p class="text-sm mb-0">{{ a.nom }} {{ a.prenom }}</p></td>
+                <td><p class="text-sm mb-0">{{ a.dateDebut | date:'dd/MM/yyyy' }}</p></td>
+                <td><p class="text-sm mb-0">{{ a.dateFin   | date:'dd/MM/yyyy' }}</p></td>
+                <td>
+                  <div class="d-flex justify-content-center gap-2">
+                    <button
+                      class="btn btn-sm btn-outline-primary -pill px-3 shadow-sm"
+                      (click)="editAffectation(a.idAffectation)">
+                      ✏️ Modifier
+                    </button>
+                    <button
+                      class="btn btn-sm btn-outline-danger -pill px-3 shadow-sm"
+                      (click)="deleteAffectation(a.idAffectation)">
+                      🗑️ Supprimer
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr *ngIf="!filteredAffectations?.length">
+                <td colspan="5" class="text-center text-muted py-4">Aucune affectation trouvée.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <app-footer class="app-footer-flat mt-4"></app-footer>
+  </div>
+</main>
