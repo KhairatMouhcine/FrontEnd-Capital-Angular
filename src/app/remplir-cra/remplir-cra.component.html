@@ -1,0 +1,28 @@
+<div class="container">
+  <h2>Remplir CRA</h2>
+
+  <label for="affectationId">Affectation ID :</label>
+  <input type="number" [(ngModel)]="affectationId" id="affectationId" />
+
+  <button (click)="chargerCra()">Charger CRA</button>
+
+  <div *ngIf="crats.length > 0">
+    <h3>Résultats :</h3>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Mois</th>
+          <th>Nombre de jours</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of crats">
+          <td>{{ c.id }}</td>
+          <td>{{ c.mois | date: 'MMMM yyyy' }}</td>
+          <td>{{ c.nombreJours }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
