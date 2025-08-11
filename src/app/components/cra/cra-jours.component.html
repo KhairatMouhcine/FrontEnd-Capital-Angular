@@ -1,0 +1,53 @@
+<div class="min-height-300 bg-dark position-absolute w-100"></div>
+
+<aside class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent" id="sidenav-main">
+  <app-side-bar></app-side-bar>
+</aside>
+
+<main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200">
+  <app-nav-layout></app-nav-layout>
+
+  <div class="container-fluid py-4 soft-bg">
+    <div class="container bg-white rounded shadow-soft p-4">
+      <h2 class="mb-4">Remplir CRA - Jours</h2>
+
+      <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle soft-table">
+          <thead class="table-light">
+            <tr>
+              <th>Date</th>
+              <th>Jour</th>
+              <th>Matin (AM)</th>
+              <th>Après-midi (PM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let jour of jours">
+              <td>{{ jour.date | date: 'yyyy-MM-dd' }}</td>
+              <td>{{ jour.jourSemaine }}</td>
+              <td>
+  <input type="checkbox"
+         [(ngModel)]="jour.am"
+         class="form-check-input border border-primary rounded" />
+</td>
+<td>
+  <input type="checkbox"
+         [(ngModel)]="jour.pm"
+         class="form-check-input border border-primary rounded" />
+</td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="d-flex gap-3 mt-4">
+        <button class="btn btn-primary shadow-soft-sm" (click)="save()">💾 Enregistrer</button>
+        <button class="btn btn-outline-primary shadow-soft-sm" (click)="downloadCra()">⬇️ Télécharger le CRA</button>
+        <button class="btn btn-outline-primary shadow-soft-sm" (click)="signer(id)">Signer</button>
+      </div>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</main>
