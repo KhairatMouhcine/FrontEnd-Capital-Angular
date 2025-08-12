@@ -1,0 +1,6 @@
+.head{display:flex;align-items:center;justify-content:space-between;margin:1rem 0}
+.actions{display:flex;gap:.5rem}
+.btn{padding:.5rem .75rem;border:1px solid #ddd;border-radius:.5rem;text-decoration:none}
+table{width:100%;border-collapse:collapse}
+th,td{border:1px solid #eee;padding:.5rem;text-align:left}
+.act{display:flex;gap:.5rem}
