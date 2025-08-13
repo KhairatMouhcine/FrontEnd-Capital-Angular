@@ -1,0 +1,78 @@
+<div class="min-height-300 bg-dark position-absolute w-100"></div>
+
+<aside class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent">
+  <app-side-bar></app-side-bar>
+</aside>
+  <main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200 ">
+  <app-nav-layout></app-nav-layout>
+
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card shadow-sm mt-4">
+          
+
+         <div class="card-header">
+       <h3 class="mb-4 fw-bold border-bottom pb-2"
+          style="background:linear-gradient(90deg,#344767);
+                 -webkit-background-clip:text;background-clip:text;color:transparent;">🧾Éditeur de facture</h3>
+  <small class="text-muted">
+    InvoiceId : <code>{{ invoiceId }}</code>
+    <span *ngIf="vendorId !== null"> • Fournisseur: <code>{{ vendorId }}</code></span>
+  </small>
+</div>
+
+<div class="card-body">
+  <!-- On ne montre plus le switch; la présence de vendorId décide -->
+  <div *ngIf="info" class="alert alert-success">{{ info }}</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th style="width:45%">Description</th>
+          <th style="width:20%">Prix unitaire (€)</th>
+          <th style="width:20%" *ngIf="showSupplierPrice">Prix fournisseur (€)</th>
+          <th style="width:1%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let line of lines; let i = index">
+          <td>
+            <input type="text" class="form-control" [(ngModel)]="line.description" name="desc{{i}}" required>
+          </td>
+          <td>
+            <input type="number" min="0" step="0.01" class="form-control"
+                   [(ngModel)]="line.prixUnitaire" name="pu{{i}}" required>
+          </td>
+          <td *ngIf="showSupplierPrice">
+            <input type="number" min="0" step="0.01" class="form-control"
+                   [(ngModel)]="line.prixFournisseur" name="pf{{i}}" required>
+          </td>
+          <td class="text-end">
+            <button class="btn btn-outline-danger btn-sm" (click)="removeRow(i)" title="Supprimer">×</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex gap-2 mt-3">
+    <button class="btn btn-outline-secondary" (click)="addRow()">Ajouter une ligne</button>
+    <button class="btn btn-primary" (click)="save()" [disabled]="saving">
+      {{ saving ? 'Sauvegarde…' : 'Sauvegarder' }}
+    </button>
+    <button class="btn btn-success" (click)="generate()" [disabled]="generating">
+      {{ generating ? 'Génération…' : 'Générer (PDF/ZIP)' }}
+    </button>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</main>
