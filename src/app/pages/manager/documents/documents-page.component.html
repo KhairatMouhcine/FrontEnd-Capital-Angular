@@ -1,0 +1,170 @@
+
+<div class="min-height-300 bg-dark position-absolute w-100"></div>
+
+<aside
+  id="sidenav-main"
+  class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent">
+  <app-side-bar></app-side-bar>
+</aside>
+
+<main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200">
+  <!-- Navbar -->
+  <app-nav-layout></app-nav-layout>
+  <!-- End Navbar -->
+
+  <div class="container-fluid py-4">
+    <div class="container mt-4 p-4 rounded shadow bg-white">
+                      <div class="mb-4 -4 overflow-hidden" style="height:35px;">
+        <img
+          src="assets/img/curved-images/curved0.jpg"
+          alt="Illustration"
+          style="width:100%; height:100% !important; object-fit:cover; display:block;">
+      </div>
+            <!-- 🔹 Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+             <h3 class="mb-4 fw-bold border-bottom pb-2"
+          style="background:linear-gradient(90deg,#344767);
+                 -webkit-background-clip:text;background-clip:text;color:transparent;">🧾Vérification / Ajout des documents fiscaux et sociaux</h3>
+        <!-- (CTA optionnel, laissé vide pour ne rien changer côté TS) -->
+      </div>
+      <div class="soft-page">
+
+  <!-- BARRE HAUTE -->
+  <div class="soft-card soft-topbar d-flex align-items-center gap-3 justify-content-between mb-3">
+    <div>
+      <h4 class="mb-0">Fournisseurs</h4>
+      <div class="text-muted small" *ngIf="total">({{ total }})</div>
+    </div>
+
+    <div class="position-relative flex-grow-1" style="max-width:600px;">
+      <input
+        class="soft-input w-100"
+        placeholder="Rechercher un fournisseur…"
+        [(ngModel)]="query"
+        (ngModelChange)="onQueryChange($event)"
+        name="query"
+      />
+      <div class="soft-card position-absolute w-100 mt-2" *ngIf="suggestions.length">
+        <div class="p-2" style="cursor:pointer" *ngFor="let s of suggestions" (click)="pick(s)">
+          {{ s.name }} 
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LISTE FOURNISSEURS EN ACCORDÉON (PLEINE LARGEUR) -->
+  <div class="soft-card">
+    <div *ngIf="loading" class="text-muted">Chargement…</div>
+    <div *ngIf="!loading && vendors.length === 0" class="text-muted">Aucun fournisseur</div>
+
+    <div *ngIf="!loading && vendors.length">
+
+      <!-- UNE LIGNE PAR FOURNISSEUR -->
+      <div
+        class="mb-2 rounded-4"
+        *ngFor="let v of vendors"
+        [class.border]="true"
+        [class.border-0]="selectedVendor?.id === v.id"
+        [class.p-0]="true">
+
+        <!-- ENTÊTE CLIQUABLE (SÉLECTION + FLÈCHE) -->
+        <button
+          class="w-100 d-flex align-items-center justify-content-between px-3 py-3 bg-white border-0"
+          (click)="pick(v)"
+          style="cursor:pointer; border-radius: 16px;">
+          <div class="d-flex align-items-baseline gap-2">
+            <strong>{{ v.name }}</strong>
+            
+          </div>
+
+          <!-- flèche qui pivote si ouvert -->
+          <span
+            class="ms-3"
+            [style.transition]="'transform .2s ease'"
+            [style.transform]="selectedVendor?.id === v.id ? 'rotate(180deg)' : 'rotate(0deg)'">
+            ⌄
+          </span>
+        </button>
+
+        <!-- PANNEAU DÉPLIÉ : DOCS + ADD + FORM EN BAS -->
+        <div *ngIf="selectedVendor?.id === v.id" class="px-3 pb-3 pt-0">
+
+          <!-- TABLE DES DOCUMENTS -->
+          <div *ngIf="rows.length === 0" class="alert alert-warning mt-2 mb-2">
+            Aucun document valide pour ce fournisseur.
+          </div>
+
+          <div class="table-responsive mt-2" *ngIf="rows.length > 0">
+            <table class="table table-striped mb-2">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Valide jusqu’au</th>
+                  <th>Créé le</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let r of rows">
+                  <td>{{ r.type }}</td>
+                  <td>{{ r.validUntil }}</td>
+                  <td>{{ r.createdAt | date:'yyyy-MM-dd HH:mm' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- BOUTON ADD DOCUMENT (affiche le form via showForm de ton .ts) -->
+          <div class="d-flex justify-content-end mb-2">
+            <button class="btn btn-primary" (click)="addDocument()" [disabled]="loading">
+              + Add document
+            </button>
+          </div>
+
+          <!-- FORMULAIRE EN BAS DES DOCUMENTS (utilise ton addDocForm/showForm existants) -->
+          <form
+            *ngIf="showForm"
+            [formGroup]="addDocForm"
+            (ngSubmit)="submitAddDocument()"
+            class="p-3 border rounded-3 bg-white">
+
+            <div class="row g-3 align-items-end">
+              <div class="col-md-4">
+                <label class="form-label">Type</label>
+                <select class="form-select" formControlName="type">
+                  <option value="Fiscal">Fiscal</option>
+                  <option value="Social">Social</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Valide jusqu’au</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  formControlName="validUntil"
+                  [attr.min]="(today | date:'yyyy-MM-dd')" />
+              </div>
+
+              <div class="col-md-4 text-end">
+                <button type="submit" class="btn btn-success me-2" [disabled]="loading">
+                  {{ loading ? 'Enregistrement…' : 'Save' }}
+                </button>
+                <button type="button" class="btn btn-outline-secondary" (click)="cancelAddDocument()">
+                  Close
+                </button>
+              </div>
+            </div>
+          </form>
+
+        </div> <!-- /row-panel -->
+      </div> <!-- /vendor item -->
+
+    </div>
+  </div>
+</div>
+
+    </div>
+
+    <app-footer class="app-footer-flat"></app-footer>
+  </div>
+</main>

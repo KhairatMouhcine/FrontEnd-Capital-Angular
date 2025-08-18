@@ -1,0 +1,36 @@
+:host{
+  --bg:#f3f6fb; --card:#fff; --text:#1d2433; --muted:#6b7280;
+  --primary:#5e72e4; --warn:#ffb020; --radius:18px;
+  --shadow:10px 10px 20px rgba(0,0,0,.08),-10px -10px 20px rgba(255,255,255,.7);
+  --inset:inset 8px 8px 16px rgba(0,0,0,.06),inset -8px -8px 16px rgba(255,255,255,.8);
+}
+.soft-page{background:var(--bg);padding:20px;color:var(--text);min-height:100%;}
+.soft-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;}
+.soft-input{width:100%;border:none;outline:none;background:var(--card);border-radius:14px;padding:10px 12px;box-shadow:var(--inset);font-size:14px;}
+.soft-btn{border:none;background:var(--card);box-shadow:var(--shadow);padding:10px 14px;border-radius:14px;cursor:pointer}
+.soft-btn.primary{background:linear-gradient(135deg,var(--primary),#7b8cfb);color:#fff;box-shadow:0 10px 18px rgba(94,114,228,.25)}
+.soft-topbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.search{position:relative;min-width:280px;flex:1}
+.suggestions{position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:10}
+.suggestion{padding:8px 10px;border-radius:10px;cursor:pointer}
+.suggestion:hover{background:#f4f6ff}
+.muted{color:var(--muted);font-size:12px}
+
+/* accordion */
+.vendor-accordion{display:flex;flex-direction:column;gap:12px}
+.vendor-row{border-radius:16px;overflow:hidden;background:var(--card);box-shadow:var(--shadow)}
+.row-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:0;background:transparent;cursor:pointer}
+.row-title{display:flex;gap:10px;align-items:baseline}
+.row-title .name{font-weight:600}
+.chev{transition:transform .2s ease;font-size:18px;line-height:1}
+.chev.open{transform:rotate(180deg)}
+.row-panel{padding:12px 16px;border-top:1px solid #eef1f7;background:#fbfcff}
+.panel-actions{margin-top:8px;margin-bottom:6px}
+.soft-table-wrapper{overflow:auto;border-radius:14px}
+.soft-table{width:100%;border-collapse:collapse}
+.soft-table th,.soft-table td{padding:10px 12px;text-align:left;font-size:14px}
+.soft-table thead th{background:#f5f7ff;color:#3f4aa6}
+.soft-table tbody tr+tr td{border-top:1px solid #eef1f7}
+.soft-alert.warn{background:#fff7e6;color:#8c5b00;border-radius:12px;padding:10px 12px}
+.soft-form .form-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end}
+@media (max-width:900px){.soft-form .form-grid{grid-template-columns:1fr}}
