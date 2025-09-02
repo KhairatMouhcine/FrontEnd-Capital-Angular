@@ -1,0 +1,32 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { AuthService } from './auth.service';
+
+export interface EmploiActuel {
+  id: number;
+  denomination: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AffectationActuelleService {
+  private apiUrl = 'https://localhost:7107/api/clientProfil';
+
+  constructor(
+    private http: HttpClient,
+    private auth: AuthService
+  ) {}
+
+  getEmploisActuels(): Observable<EmploiActuel[]> {
+    const userId = this.auth.getUserIdFromToken();
+
+    return this.http.get<number>(`https://localhost:7079/api/profil/by-user/${userId}`).pipe(
+      switchMap((profilId: number) => {
+        return this.http.get<EmploiActuel[]>(`${this.apiUrl}/currentEmploi?id=${profilId}`);
+      })
+    );
+  }
+}
